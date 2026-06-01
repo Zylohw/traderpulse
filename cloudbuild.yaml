@@ -1,0 +1,20 @@
+steps:
+  # Build the frontend
+  - name: 'node:18'
+    entrypoint: 'npm'
+    args: ['install']
+  
+  - name: 'node:18'
+    entrypoint: 'npm'
+    args: ['run', 'build']
+  
+  # Deploy to Cloud Run
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'traderpulse-frontend'
+      - '--platform=managed'
+      - '--region=us-central1'
+      - '--source=.'
+      - '--allow-unauthenticated'
